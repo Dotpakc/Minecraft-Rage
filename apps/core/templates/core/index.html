@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Main page{% endblock %}
+
+{% block content %}
+  <h1 class="text-3xl font-bold underline">
+    Hello world! You are on the main page!
+  </h1>
+
+  {% for skin in skins %}
+    <div class="bg-gray-200 p-4 m-4">
+      <h2 class="text-xl font-bold">{{ skin.name }}</h2>
+      <img src="{{ skin.image.url }}" alt="{{ skin.name }}">
+    </div>
+  {% endfor %}
+{% endblock %}
