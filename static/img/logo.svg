@@ -1,0 +1,15 @@
+<svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="5" y="27.5" width="17" height="3" transform="rotate(-30 5 27.5)" fill="white"/>
+<rect x="0.776367" y="18" width="17" height="3" transform="rotate(15 0.776367 18)" fill="white"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M30 0H0V15.1164C7.79036 16.0294 13.9706 22.2096 14.8836 30H30V0Z" fill="#B91E5F"/>
+<rect width="15" height="15" fill="#0EA0C0"/>
+<circle cx="22.5" cy="7.5" r="7.5" fill="#4E1448"/>
+<circle cx="7.5" cy="7.5" r="3.5" fill="#4E1448"/>
+<rect x="19" y="4" width="7" height="7" fill="#0EA0C0"/>
+<rect x="15" y="16" width="4" height="4" fill="white"/>
+<rect x="20" y="16" width="4" height="4" fill="white"/>
+<rect x="25" y="16" width="4" height="4" fill="white"/>
+<rect x="25" y="21" width="4" height="4" fill="white"/>
+<rect x="20" y="21" width="4" height="4" fill="white"/>
+<rect x="15" y="21" width="4" height="4" fill="white"/>
+</svg>

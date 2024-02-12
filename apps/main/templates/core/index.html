@@ -6,71 +6,21 @@
 {% block title %}Main page{% endblock %}
 
 {% block content %}
-  <h1 class="text-3xl font-bold underline">
-    Hello world! You are on the main page!
+<div class="mt-4 p-4 bg-body-tertiary rounded-lg">
+  <h1 class="text-3xl text-center font-bold">
+    Main page
   </h1>
+  <p class="text-center">Welcome to the main page of the site</p>
+</div>
+<div class="mt-4 p-4 bg-body-tertiary rounded-lg">
+  <h2 class="text-2xl font-bold">Features</h2>
+  <p>Here are some of the features of the site:</p>
+  <ul>
+    <li>Registration and authorization</li>
+    <li>Profile editing</li>
+    <li>Creating and editing posts</li>
+    <li>Comments</li>
+  </ul>
+</div>
 
-  {% for skin in skins %}
-    <div class="bg-gray-200 p-4 m-4">
-      <h2 class="text-xl font-bold">{{ skin.name }}</h2>
-      <img id="skin{{skin.id}}" src="{{ skin.image.url }}">
-    </div>
-  {% endfor %}
-
-  <canvas id="canvas" width="200" height="200"></canvas>
-  <button id="showdata">Show data</button>
-  <script src="{% static 'js/skinview3d.bundle.js' %}"></script>
-  <script>
-    const configurations = [
-       {% for skin in skins %}
-         {
-           skin: "{{ skin.image.url }}",
-           cape: null,
-           id: "{{ skin.id }}",
-         },
-       {% endfor %}
-    ];
-    const element = document.getElementById("canvas");
-
-    const skinViewer1 = new skinview3d.SkinViewer({
-      canvas: element,
-        width: 200,
-        height: 200,
-        skin: configurations[1].skin,
-        enableControls: true,
-    });
-
-    document.getElementById("showdata").addEventListener("click", () => {
-      console.log(skinViewer1);
-    });
-
-    (async function () {
-        const skinViewer = new skinview3d.SkinViewer({
-            width: 200,
-            height: 200,
-            renderPaused: true,
-        });
-
-        skinViewer.camera.rotation.x = -0.250;
-        skinViewer.camera.rotation.y = -0.780;
-        skinViewer.camera.rotation.z = -0.212;
-        skinViewer.camera.position.x = -29.2;
-        skinViewer.camera.position.y = 8.65;
-        skinViewer.camera.position.z = 28.28;
-        skinViewer.zoom = 1.0;
-
-        for (const config of configurations) {
-            await Promise.all([
-                skinViewer.loadSkin(config.skin),
-                skinViewer.loadCape(config.cape, { backEquipment: config.backEquipment })
-            ]);
-            skinViewer.render();
-            const image = skinViewer.canvas.toDataURL();
-
-            document.getElementById("skin" + config.id).src = image;
-        }
-
-
-    })();
-</script>
 {% endblock %}
