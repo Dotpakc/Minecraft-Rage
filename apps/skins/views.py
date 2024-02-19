@@ -23,4 +23,10 @@ def create(request):
 
 def detail(request, id):
     skin = get_object_or_404(Skin, id=id)
-    return render(request, 'skins/detail.html', {'skin': skin})
+    six_random_skins = Skin.objects.order_by('?')[:6]
+    context = {
+        'skin': skin,
+        'six_random_skins': six_random_skins
+    }
+    
+    return render(request, 'skins/detail.html', context)

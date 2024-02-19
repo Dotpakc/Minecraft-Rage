@@ -18,8 +18,10 @@
         <div class="card">
           <div class="card-header text-center">
             <h5>{{ skin.name }}</h5>
+          </div> 
+          <div class="checkered">
+            <img id="skin{{ skin.id }}" src="" class="card-img-top">
           </div>
-          <img id="skin{{ skin.id }}" src="" class="card-img-top" alt="...">
         </div>
       </a>
   </div>
@@ -88,17 +90,29 @@
     (async function () {
         const skinViewer = new skinview3d.SkinViewer({
             width: 200,
-            height: 200,
-            renderPaused: true,
+            height: 300,
+            renderPaused: false,
         });
 
-        skinViewer.camera.rotation.x = -0.250;
-        skinViewer.camera.rotation.y = -0.780;
-        skinViewer.camera.rotation.z = -0.212;
-        skinViewer.camera.position.x = -29.2;
-        skinViewer.camera.position.y = 8.65;
-        skinViewer.camera.position.z = 28.28;
-        skinViewer.zoom = 1.0;
+        skinViewer.animation = new skinview3d.WalkingAnimation();
+        skinViewer.animation.paused = false;
+        skinViewer.animation.progress = 3;
+        skinViewer.animation.headBobbing = false;
+            
+        skinViewer.camera.rotation.x = -0.5034319968693;
+        skinViewer.camera.rotation.y = -0.36908259614;
+        skinViewer.camera.rotation.z = -0.196140179771;
+        skinViewer.camera.position.x = -14.993128783689523;
+        skinViewer.camera.position.y = 18.699720219168;
+        skinViewer.camera.position.z = 33.952134734071;
+        skinViewer.controls.enableZoom = false;
+       
+
+        //run 2s after the page loads
+        setTimeout(() => {
+          skinViewer.animation.paused = true;
+        }, 10);
+        skinViewer.zoom = 0.9;
 
         for (const config of configurations) {
             await Promise.all([
