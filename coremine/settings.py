@@ -136,3 +136,11 @@ LOGOUT_URL = 'members:logout'
 LOGIN_REDIRECT_URL = 'members:profile'
 
 #requirements.txt
+
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'eeabc67b3647fd'
+EMAIL_HOST_PASSWORD = 'baf5ab39ede30b'
+EMAIL_PORT = '2525'

@@ -23,4 +23,13 @@
   </ul>
 </div>
 
+<div class="mt-4 p-4 bg-body-tertiary rounded-lg">
+  <h2 class="text-2xl font-bold">Qustions</h2>
+  <form action="{% url 'main:question' %}" method="post">
+    {% csrf_token %}
+    {{ contact_form.as_p }}
+    <button type="submit" class="btn btn-primary">Send</button>
+  </form>
+</div>
+
 {% endblock %}
