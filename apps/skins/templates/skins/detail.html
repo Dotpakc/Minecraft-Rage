@@ -37,14 +37,13 @@
                     </form>
 
                       <a style="width:36px;height:36px" href="{{skin.image.url}}" id="download-skin" class="btn btn-secondary m-1 d-flex justify-content-center align-items-center" download="{{skin.name}}.png" title="Download"><i class="fa-solid fa-download"></i></a>
-                    <form method="POST">
+                    <form method="POST" action="{% url 'skins:add_like' skin.id %}">
+                      {% csrf_token %}
                       <div class="d-inline-block rounded bg-body-tertiary m-1">
                         <button style="width: 36px; height: 36px" title="Like" class="btn btn-outline-danger p-0" type="submit" name="task" value="like">
                           <i class="fas fa-heart"></i>
                         </button>
                       </div>
-                    </form>
-                    <form method="POST">
                     </form>
                   </div>
                   <h5 class="position-absolute bottom-0 end-0 m-1 text-muted">{{skin.likes}}<i style="vertical-align:middle;margin-left:0.1rem;font-size:67%" class="fas fa-heart"></i></h5>
@@ -67,6 +66,16 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-5">
+              <div class="card mb-3">
+                <div class="card-body text-center py-1">
+                  {% if skin.author %}
+                    Автор: <a href="{% url 'members:profile' skin.author.id %}">{{skin.author}}</a>
+                  {% else %}
+                    Автор: Аноним
+                  {% endif %}
+                  
+                </div>
+              </div>
               <div class="card mb-3">
                 <div class="card-header py-1">
                   <strong>Tags</strong>

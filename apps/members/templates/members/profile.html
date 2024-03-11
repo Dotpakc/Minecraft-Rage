@@ -13,14 +13,13 @@
 </div>
 <div class="mt-4 p-4 bg-body-tertiary rounded-lg">
     <div class="card">
-        <div class="card-body">
-          <img src="{{ user.profile.head_skin.url}}" class="card-img-top" alt="...">
-
-            <h5 class="card-title
-            ">Profile</h5>
-            <p class="card-text">Username: {{ user.username }}</p>
-            <p class="card-text">Email: {{ user.email }}</p>
-            <p class="card-text">Created: {{ user.date_joined|date:"F d, Y" }}</p>
+        <div class="card-body flex">
+            <img src="{{ profile.get_head}}" class="w-25 h-25" alt="...">
+          <div class="ml-4">
+            <p class="card-text">Username: {{ profile.user.username }}</p>
+            <p class="card-text">Email: {{ profile.user.email }}</p>
+            <p class="card-text">Created: {{ profile.user.date_joined|date:"F d, Y" }}</p>
+          </div>
         </div>
             <a href="{% url 'members:logout' %}" class="btn btn-primary">LOGOUT</a>
     </div>

@@ -3,27 +3,32 @@ from PIL import Image
 
 from django.db import models
 from django.contrib.auth.models import User
-from apps.skins.models import Skin
+# from apps.skins.models import Skin
 
 # Create your models here.
 class Profile(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    skin = models.ForeignKey(Skin, on_delete=models.SET_NULL, null=True, blank=True)
+    skin = models.ForeignKey('skins.Skin', on_delete=models.SET_NULL, null=True, blank=True)
     head_skin = models.ImageField(upload_to='profiles/heads', null=True, blank=True)
-    
+    likes_skins = models.ManyToManyField('skins.Skin', related_name='liked_by', blank=True)
     
     def __str__(self):
         return self.user.username
     
     def save(self, *args, **kwargs):
+        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        print(self.skin)
         super().save(*args, **kwargs)
+        print(self.skin)
         self.head_skin = self.create_head()
         super().save(*args, **kwargs)
+        print(self.skin)
+
     
     def create_head(self):
-        if self.head_skin:
-            return self.head_skin.url
+        # if self.head_skin:
+        #     return self.head_skin.url
         if self.skin:
             img = Image.open(self.skin.image.path).convert("RGBA")
             x, y = img.size
@@ -48,3 +53,8 @@ class Profile(models.Model):
                     resized_head.paste(pixel, (i * k, j * k, (i + 1) * k, (j + 1) * k))
             resized_head.save("media/skins/" + str(self.id) + ".png")
             return "skins/" + str(self.id) + ".png"
+    
+    def get_head(self):
+        if self.head_skin:
+            return self.head_skin.url
+        return "/media/skins/default_head.png"

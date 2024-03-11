@@ -1,6 +1,6 @@
 from django.db import models
 from uuid import uuid4
-
+from apps.members.models import Profile
 
 # Create your models here.
 
@@ -12,6 +12,7 @@ class Skin(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.IntegerField(default=0)
     status = models.BooleanField(default=True)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='skins', null=True, default=None)
 
     def __str__(self):
         return self.name

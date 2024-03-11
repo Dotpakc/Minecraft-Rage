@@ -31,7 +31,7 @@
         </form> -->
         <div class="d-flex gap-2">
           {% if user.is_authenticated %}
-            <a href="{% url 'members:profile' %}" class="btn btn-outline-light ">Profile</a>
+            <a href="{% url 'members:profile' user.profile.id %}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-user"></i> Profile</a>
           {% else %}
             <a href="{% url 'members:login' %}" class="btn btn-outline-light btn-sm"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
           {% endif %}

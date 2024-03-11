@@ -17,7 +17,9 @@ def create(request):
     if request.method == 'POST':
         form = SkinForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            skin = form.save(commit=False)
+            skin.author = request.user.profile
+            skin.save()
             return redirect('skins:index')
     else:
         form = SkinForm()
@@ -33,3 +35,15 @@ def detail(request, id):
     }
     
     return render(request, 'skins/detail.html', context)
+
+@login_required
+def like(request, id):
+    skin = get_object_or_404(Skin, id=id)
+    profile = request.user.profile
+    if skin not in profile.likes_skins.all():
+        profile.likes_skins.add(skin)
+        skin.likes += 1
+        skin.save()
+    profile.skin = skin
+    profile.save()
+    return redirect('members:profile', id=profile.id)
