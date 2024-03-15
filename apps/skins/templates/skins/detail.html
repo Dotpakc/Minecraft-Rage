@@ -54,10 +54,13 @@
                     <div id="nn_mobile_mpu1"></div>
                   </div>
                 <div class="card mb-3" style="max-height: 15rem">
-                  <div class="card-header py-1"><strong>Profiles (116)</strong></div>
+                  <div class="card-header py-1"><strong>Profiles ({{skin.liked_by.count}})</strong></div>
                   <div class="card-body player-list py-2">
-                     <a translate="no" href="/profile/Itsrealme___.1" class="">Itsrealme___</a> 
-                      <a translate="no" href="/profile/JustM9owed.1" class="">JustM9owed</a> 
+                  {% for user in skin.liked_by.all %}
+                    <a href="{% url 'members:profile' user.id %}" class="">{{user}}</a>
+                  {% endfor %}
+                     {% comment %} <a translate="no" href="/profile/Itsrealme___.1" class="">Itsrealme___</a> 
+                      <a translate="no" href="/profile/JustM9owed.1" class="">JustM9owed</a>  {% endcomment %}
                       
                   </div>
                 </div>
