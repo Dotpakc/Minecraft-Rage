@@ -1,5 +1,5 @@
 from uuid import uuid4
-from PIL import Image
+
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -19,5 +19,5 @@ class Profile(models.Model):
         
     def get_head(self):
         if self.skin:
-            return self.skin.image_head.url
+            return self.skin.get_head()
         return "/media/skins/default_head.png"

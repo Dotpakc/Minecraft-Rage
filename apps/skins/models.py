@@ -55,11 +55,19 @@ class Skin(models.Model):
         
         new_width = x * k
         new_height = y * k
-        resized_head = head.resize((new_width, new_height), Image.ANTIALIAS)
+        resized_head = head.resize((new_width, new_height), Image.NEAREST)
         
         # Получаем путь для сохранения
         head_filename = os.path.join('skins/images/head/', f"{self.id}.png")
-        resized_head.save(head_filename)
+        if not os.path.exists('media/skins/images/head/'):
+            os.makedirs('media/skins/images/head/')
+        resized_head.save(f"media/{head_filename}")
         
         # Присваиваем значение полю image_head
         self.image_head.name = head_filename
+        
+    def get_head(self):
+        if not self.image_head:
+            self.create_head()
+            self.save()
+        return self.image_head.url
