@@ -6,23 +6,167 @@
 {% block title %}Profile page{% endblock %}
 
 {% block content %}
-<div class="mt-4 p-4 bg-body-tertiary rounded-lg">
+<div class="mt-4 p-4 ">
   <h1 class="text-3xl text-center font-bold">
     Profile page
   </h1>
 </div>
-<div class="mt-4 p-4 bg-body-tertiary rounded-lg">
-    <div class="card">
-        <div class="card-body flex">
-            <img src="{{ profile.get_head}}" class="w-25 h-25" alt="...">
-          <div class="ml-4">
-            <p class="card-text">Username: {{ profile.user.username }}</p>
-            <p class="card-text">Email: {{ profile.user.email }}</p>
-            <p class="card-text">Created: {{ profile.user.date_joined|date:"F d, Y" }}</p>
+<div class="mt-4 ">
+  <div class="row">
+    <div class="col-4">
+      <canvas id="canvas" class="skin-3d drop-shadow auto-size align-top mx-auto border" width="330" height="440" style="cursor:move;width:300px" data-id="d2434428eb6a0774" data-model="slim" data-theta="75" data-phi="22"></canvas>
+    </div>
+    <div class="col">
+
+      <div class="card" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{ profile.get_head}}" class="img-fluid rounded-start">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <p class="card-text">Username: {{ profile.user.username }}</p>
+              <p class="card-text">Email: {{ profile.user.email }}</p>
+              <p class="card-text">Created: {{ profile.user.date_joined|date:"F d, Y" }}</p>
+              <div class="avatar-group">
+                {% for skin in profile.likes_skins.all %}
+                <a href="{% url 'skins:add_like' skin.id %}">
+                  <img class="avatar rounded-0" src="{{skin.get_head}}" alt="{{skin.name}}">
+                </a>
+                {% endfor %}
+              </div>
+            </div>
+            </div>
+            <div class="card-footer">
+              <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSkin">Add skin</a>
+            </div>
+              
+               
+              </form>
+            </div>
           </div>
         </div>
-            <a href="{% url 'members:logout' %}" class="btn btn-primary">LOGOUT</a>
+      </div>
+
+
     </div>
+  </div>
+  
+
 </div>
 
+
+
+<!-- Modal -->
+<div class="modal modal-sm fade" id="addSkin" tabindex="-1" aria-labelledby="addSkinLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addSkinLabel">Add Skin</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form action="{% url 'skins:create' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" id="image" name="image">
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="{% static 'js/skinview3d.bundle.js' %}"></script>
+<script>
+  const element = document.getElementById("canvas");
+  console.log(element);
+
+  const skinViewer = new skinview3d.SkinViewer({
+        canvas: element,
+        width: 330,
+        height: 440,
+        skin:"{{profile.skin.image.url}}",
+        enableControls: true,
+    }); 
+    skinViewer.animation = new skinview3d.WalkingAnimation();
+    skinViewer.animation.paused = false;
+    skinViewer.animation.progress = 3;
+    skinViewer.animation.headBobbing = false;
+        
+    skinViewer.camera.rotation.x = -0.5034319968693;
+    skinViewer.camera.rotation.y = -0.36908259614;
+    skinViewer.camera.rotation.z = -0.196140179771;
+    skinViewer.camera.position.x = -14.993128783689523;
+    skinViewer.camera.position.y = 18.699720219168;
+    skinViewer.camera.position.z = 33.952134734071;
+    skinViewer.controls.enableZoom = false;
+   
+
+    //run 2s after the page loads
+    setTimeout(() => {
+      skinViewer.animation.paused = true;
+    }, 10);
+    
+
+    function playAnimation() {
+      skinViewer.animation.paused = !skinViewer.animation.paused;
+      const btn = document.getElementById("play-pause-btn");
+      if (skinViewer.animation.paused) {
+        btn.innerHTML = '<i class="fas fa-play"></i>';
+        btn.title = "Play";
+      } else {
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+        btn.title = "Pause";
+      }
+    }
+
+    
+    function downloadBase64Image(base64String, filename) {
+      // Розбиваємо base64-рядок на дві частини: тип медіа та дані
+      const parts = base64String.split(';base64,');
+      const mimeType = parts[0].split(':')[1];
+      const imageData = atob(parts[1]);
+      const bytes = new Uint8Array(imageData.length);
+    
+        for (let i = 0; i < imageData.length; i++) {
+            bytes[i] = imageData.charCodeAt(i);
+        }
+    
+        const blob = new Blob([bytes], { type: mimeType });
+  
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          // Для Internet Explorer
+          window.navigator.msSaveOrOpenBlob(blob, filename);
+      } else {
+          // Створюємо посилання для завантаження файлу
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+  
+          // Додаємо посилання у DOM, клікаємо на нього та видаляємо
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      }
+  }
+
+
+    function capture() {
+      const img = skinViewer.canvas.toDataURL("image/png");
+      console.log(img);
+      downloadBase64Image(img, "skin.png");
+    }
+
+
+</script>
 {% endblock %}

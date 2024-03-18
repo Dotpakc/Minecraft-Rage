@@ -19,7 +19,11 @@ def create(request):
         if form.is_valid():
             skin = form.save(commit=False)
             skin.author = request.user.profile
+            skin.likes = 1
             skin.save()
+            request.user.profile.skin = skin
+            request.user.profile.likes_skins.add(skin)
+            request.user.profile.save()
             return redirect('skins:index')
     else:
         form = SkinForm()
