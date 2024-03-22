@@ -26,10 +26,49 @@
       </a>
   </div>
   {% endfor %}
-
   </div>
  
- 
+  <!-- paginator django -->
+  <div class="d-flex justify-content-center mt-3">
+    {% if skins.has_other_pages %}
+    <ul class="pagination pagination-lg">
+      {% if skins.has_previous %}
+      {% if skins.number|add:'-2' > 0 %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1" aria-label="First">
+            <span aria-hidden="true">1</span>
+          </a>
+        </li>
+      {% endif %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ skins.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">{{ skins.previous_page_number }}</span>
+          </a>
+        </li>
+      {% endif %}
+      
+        
+      <li class="page-item active" aria-current="page">
+        <span class="page-link">{{ skins.number }}</span>
+      </li>
+
+      {% if skins.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ skins.next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">{{ skins.next_page_number }}</span>
+        </a>
+      </li>
+      {% if skins.number|add:'2' < skins.paginator.num_pages %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ skins.paginator.num_pages }}" aria-label="Last">
+          <span aria-hidden="true">{{ skins.paginator.num_pages }}</span>
+        </a>
+      </li>
+      {% endif %}
+      {% endif %}
+    </ul>
+    {% endif %}
+  </div>
 
 
 

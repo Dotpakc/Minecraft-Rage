@@ -25,6 +25,13 @@ class Skin(models.Model):
     status = models.BooleanField(default=True)
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='skins', null=True, default=None)
 
+    tags = models.ManyToManyField(
+    to='skins.Tag',
+    through='skins.SkinTag',
+    related_name='skins',
+    blank=True,
+    )
+    
     def __str__(self):
         return self.name
     
@@ -71,3 +78,27 @@ class Skin(models.Model):
             self.create_head()
             self.save()
         return self.image_head.url
+    
+class SkinTag(models.Model):
+    skin = models.ForeignKey(Skin, on_delete=models.CASCADE)
+    tag = models.ForeignKey('skins.Tag', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"{self.skin.name} - {self.tag.name}"
+    
+    class Meta:
+        verbose_name = 'Skin-Tag'
+        verbose_name_plural = 'Skin-Tags'
+        ordering = ['skin']
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Tag'
+        verbose_name_plural = 'Tags'
+        ordering = ['name']

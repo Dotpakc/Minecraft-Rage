@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 
 from .models import Skin
 from .forms import SkinForm
@@ -9,6 +9,9 @@ from .forms import SkinForm
 @login_required
 def index(request):
     skins = Skin.objects.all()
+    paginator = Paginator(skins, 4)
+    page = request.GET.get('page')
+    skins = paginator.get_page(page)
     skinAddform = SkinForm()
     return render(request, 'skins/index.html', {'skins': skins, 'skinAddform': skinAddform})
 
