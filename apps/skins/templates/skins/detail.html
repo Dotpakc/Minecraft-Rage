@@ -89,12 +89,12 @@
                 <div class="card mb-3">
                   <div class="row g-0 p-1">
                     {% for skin in six_random_skins %}
-                      <div class="col-6 col-sm-4 col-md-2 col-md-4 p-1">
+                      <div class="col-6 col-sm-5 col-md-4 p-1">
                         <a href="{% url 'skins:detail' skin.id %}">
                           <div class="card">
                             <div class="card-body position-relative text-center checkered p-1">
                               <div>
-                                <img class="drop-shadow mx-auto" loading="lazy" width="80" height="160" id="skin{{skin.id}}" style="display:none" src="" alt="{{skin.name}}">
+                                <img class="drop-shadow mx-auto w-100" id="skin{{skin.id}}" style="display:none" alt="{{skin.name}}" src="" loading="lazy">
                               </div>
                               <small class="position-absolute bottom-0 end-0 text-muted mx-1">{{skin.likes}}<i style="vertical-align:middle;margin-left:0.1rem;font-size:67%" class="fas fa-heart"></i></small>
                               <small class="position-absolute bottom-0 start-0  text-muted mx-1">{{skin.created_at | timesince}}</small>
